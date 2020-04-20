@@ -106,6 +106,10 @@ void safety_setter_thread() {
   cereal::CarParams::Reader car_params = cmsg.getRoot<cereal::CarParams>();
   cereal::CarParams::SafetyModel safety_model = car_params.getSafetyModel();
 
+  LOGW("setting unsafety mode");
+  libusb_control_transfer(dev_handle, 0x40, 0xdf, 2, 0, NULL, 0, TIMEOUT);
+
+  int safety_model = int(car_params.getSafetyModel());
   auto safety_param = car_params.getSafetyParam();
   LOGW("setting safety model: %d with param %d", (int)safety_model, safety_param);
 
