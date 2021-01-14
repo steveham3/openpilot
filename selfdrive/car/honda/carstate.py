@@ -349,7 +349,7 @@ class CarState(CarStateBase):
     ret.cruiseState.available = bool(main_on)
     ret.cruiseState.nonAdaptive = self.cruise_mode != 0
 
-    if self.CP.carFingerprint in (CAR.PILOT, CAR.PILOT_2019, CAR.RIDGELINE):
+    if self.CP.carFingerprint in (CAR.PILOT, CAR.PILOT_2019, CAR.RIDGELINE, CAR.ODYSSEY):
       if ret.brake > 0.05:
         ret.brakePressed = True
 
