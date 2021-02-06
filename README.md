@@ -14,6 +14,8 @@ Table of Contents
 
 ---
 
+
+
 Introduction
 ------
 
@@ -30,6 +32,8 @@ If you wish you can buy me a beer or 3:  https://www.patreon.com/kegman
 
 <b>kegman-Clarity</b> - for Honda Clarity models
 
+
+
 Installation Instructions
 ------
 Using Workbench
@@ -44,6 +48,8 @@ Manually using SSH
 - git checkout [insert branchname here]  (you can find branchnames on github page or issue "git branch" command)
 - reboot
 
+
+
 Notices
 ------
 <b>WARNING:</b> Do NOT depend on OP to stop the car in time if you are approaching an object which is not in motion in the same direction as your car.  The radar will NOT detect the stationary object in time to slow your car enough to stop.  If you are approaching a stopped vehicle you must disengage and brake as radars ignore objects that are not in motion.
@@ -53,7 +59,7 @@ https://github.com/kegman/openpilot/blob/kegman-0.7.8/selfdrive/monitoring/drive
 
 <b>NOTICE:</b>  Due to feedback I have turned on OTA updates.  You will receive updates automatically (after rebooting 2 times) on your Eon so you don't have to reclone or git pull any longer to receive new features MADE BETWEEN COMMA RELEASES.  The reason why I separate the branches by release is because some releases can sometimes cause issues.  Features that I or others add, will continue to be updated when you are on the most current release.  If you DO NOT want OTA updates then create a file called "/data/no_ota_updates" and it will not perform OTA updates as long as that file exists.   Do not press the upgrade button on the Eon if it shows up 
 
-<b>0.7.3 and below only:</b> If you get a red screen with "Communications Mismatch" please manually reflash panda.  Instructions are here:  https://community.comma.ai/wiki/index.php/Panda_Flashing - If you are using a GM model like the Volt and you get the communications mismatch, please try the -gm branch
+
 
 Release Notes
 ------
@@ -116,7 +122,7 @@ Release Notes
 
 - ACC icon light on dash may turn yellow - does not affect OP engage-ability.
 
-#### 0.6.6 and Older
+#### 0.6.6 and Older (??? the commit history didn't go back further than 0.6.6 if you want to add more versions and when things were added feel free)
 - <b>NOTE</b>: If you upgrade to 0.6 you cannot go back to 0.5.xx without reflashing your NEOS! Scroll to bottom of readme for instructions on downgrading
 
 - <b> New! Dynamic Steer Ratio: </b>Some Hondas and other makes / models have been suffering from excessive ping-ponging on straights since 0.6.x.  The fix was to lower steerRatio.  However lowering steerRatio makes the car turn less aggressively on curves so you lose "turnability".  Raising the steerRatio makes you take turns with maximum force, but then you have ping ponging on straights.  Dynamic steer ratio adjusts based on the steering wheel angle to give you a low steerRatio on straights and a high steerRatio on turns.  This gives the best of both worlds.  Dynamic Steer Ratio is inactive by default, to activate, please adjust the following values using the Live Tuner or edit the kegman.json file:
@@ -184,6 +190,8 @@ Release Notes
 
 - <b>Honda Pilot and Ridgeline PID</b>:  I wasn't happy with the way Honda Pilot performed on curves where the car often would hug the inside line of the turn and this was very hazardous in 2 lane highways where it got very close to the oncoming traffic.  Also, on crowned roads (where the fast lane slants to the left and where the slow lane slants to the right), the car would not overcome the gravity of the slanted road and "hug" in the direction of the slant.  After many hours of on the road testing, I have mitigated this issue.  When combined with Gernby's steering it is quite a robust setup.  This combination is found in kegman-plusPilotAwesomeness.  Apparently this branch works well with RIDGELINES too!
 
+
+
 How to Use the Live Tuner
 ------
 - Turn on tethering on your Eon and connect to its Wi-Fi
@@ -196,7 +204,7 @@ How to Use the Live Tuner
 
 - Modify settings using the keyboard commmands listed at the bottom of the screen
 
-	<b>Note:  It takes 3 seconds for any changes to take effect</b>
+	<b>Note: It takes 3 seconds for any changes to take effect</b>
 
 ##### Tuning Tips
 - <b>Kp too high</b> - the car overshoots and undershoots center
@@ -217,15 +225,17 @@ All of these parameters interact with each other so finding the balance is a bit
 
 <b>Be careful and ready to take over at any time when modifying any of the xbar settings!!!</b>  The "distance" in seconds is the target distance the car will try to maintain.  The default distances are 0.9s, 1.3s, 1.8s for 1,2 and 3 bar intervals.  I manipulate this value to pass to the MPC to scale the behavior which leads to harder braking or sooner braking or softer braking.  Essentially when you are approaching a car, the distance changes depending on your approach speed.  When the lead car pulls away, the distance returns to whatever your bar setting is.
 
+
+
 kegman.json Parameter Descriptions
 ------
 This file is auto generated in /data/kegman.json so it will remain even when you do a fresh clone.  If you mess something up, just delete the file and it will auto generate to default values.  Values of -1 will be replaced with their default values when driving begins.  Use vim or nano to edit this file to your heart's content.
 
-- <b>xbarBP0</b> - (meters/second) There are 3 parameters for one two and three bar distance intervals: xbarBP0 - is how soon it should start braking - a smaller (or negative) value means your car will brake sooner when the lead car slows, a larger value means your car will start braking later
+- <b>xbarBP0</b> - (meters/second???) There are 3 parameters for one two and three bar distance intervals: xbarBP0 - is how soon it should start braking - a smaller (or negative) value means your car will brake sooner when the lead car slows, a larger value means your car will start braking later
 
-- <b>xbarBP1</b> - (meters/second) The approach speed at which your car gets to xbarMax setting
+- <b>xbarBP1</b> - (meters/second???) The approach speed at which your car gets to xbarMax setting
 
-- <b>xbarMax</b> - (seconds) The maximum distance which is reached when your approach speed reachs xbarBP1. The smaller XbarBP1 is, the sooner you get to max distance/max braking. The harder you brake the larger xbarMax is, the harder you brake where X is the distance interval (bars).
+- <b>xbarMax</b> - (seconds???) The maximum distance which is reached when your approach speed reachs xbarBP1. The smaller XbarBP1 is, the sooner you get to max distance/max braking. The harder you brake the larger xbarMax is, the harder you brake where X is the distance interval (bars).
 
 	###### Example:
     
@@ -237,17 +247,17 @@ This file is auto generated in /data/kegman.json so it will remain even when you
 
 	Everything inbetween -0.25 m/s and 3 m/s is interpolated, which adjusts the distance smoothly as you slow down depending on the lead car approach relative speed.
 		
-- <b>ACLminSpeed</b> - (kilometers/hour) Minimum speed for automatic lane change to work
+- <b>ACLminSpeed</b> - (kilometers/hour???) Minimum speed for automatic lane change to work
 
 - <b>ACLnudgeLess</b> - (1 or 0) Enable automatic lane changes without needing to nudge the steering wheel
 
 - <b>ACLtimer</b> - (seconds) How long to wait until nudgeless automatic lane change begins
 
-- <b>AutoHold</b> - (1 or 0) Turns on the Brake Hold each time you come to a complete stop
+- <b>AutoHold</b> - (1 or 0) Turns on Brake Hold each time you come to a complete stop
 
-- <b>CruiseDelta</b> - (kilometers/hour) How much to increase or decrease the set cruise control speed when you hold the button up or down
+- <b>CruiseDelta</b> - (kilometers/hour???) How much to increase or decrease the set cruise control speed when you hold the button up or down
 
-- <b>CruiseEnableMin</b> - (kilometers/hour) Minimum speed where cruise control can be enabled
+- <b>CruiseEnableMin</b> - (kilometers/hour???) Minimum speed where cruise control can be enabled
 
 - <b>Kf</b> - Feed forward. Lower this if your car oscillates and you've done everything else. It can be lowered to 0.
 
@@ -265,19 +275,19 @@ This file is auto generated in /data/kegman.json so it will remain even when you
 
 - <b>brakeStoppingTarget</b> - (0-1.0) How much OP should mash the brakes when the car is stopped.  Increase if you live in hilly areas and need more standstill braking pressure.
 
-- <b>cameraOffset</b> - (meters) Distance from the center of the car to Eon camera. If you want car to hug more to the left, increase cameraOffset. If you want car to hug more to the right, decrease cameraOffset.
+- <b>cameraOffset</b> - (meters???) Distance from the center of the car to Eon camera. If you want car to hug more to the left, increase cameraOffset. If you want car to hug more to the right, decrease cameraOffset.
 
 - <b>carVoltageMinEonShutdown</b> - (millivolts) Eon stops charging if car battery goes below this level - NOTE: this is the DISCHARGING voltage.  When the Eon is drawing current the voltage on the battery DROPS.  This is NOT the standing no-load voltage.  I would recommended that you unplug your Eon if you are away from your vehicle for more than a few hours and put a battery charger on your car's battery weekly to avoid wrecking your battery if your Eon stays powered when you shut off the car.
 
 - <b>deadzone</b> - (degrees) Adds some deadzone to the steering which could help get rid of wobble
 
-- <b>epsModded</b> - (1 or 0) enable if you have a modded Electric Power Steering (EPS)
+- <b>epsModded</b> - (1 or 0) Enable if you have a modded Electric Power Steering (EPS). (??? add more details on what exactly this does)
 
 - <b>lastTrMode</b> - The last distance interval bars you used. Automatically saved. Do not modify.
 
 - <b>leadDistance</b> - ???
 
-- <b>liveParams</b> - (1 or 0) Enable or disable OP automatic tuning???
+- <b>liveParams</b> - (1 or 0) Enable or disable OP automatic tuning. (anything else???)
 
 - <b>sR_BP0</b> - (degrees) Steering angle where sR_boost will begin to be used
 
@@ -291,11 +301,13 @@ This file is auto generated in /data/kegman.json so it will remain even when you
 
 - <b>steerRateCost</b> - Tells the system how fast to respond to changing road conditions. If steerRateCost is too low it will be very "darty" and reactive.  Too high and it will be sluggish. If you have roads with sudden changes that you want OP to be more reactive to then lower it.
 
-- <b>steerRatio</b> - Steering strength. Too high and the car ping pongs on straights and turns. Too low and the car doesn't turn enough on curves. If you're on a turn and the wheel is oversteering and then correcting, steerRatio is too high, and it's fighting with Kp and Ki (which you don't want)
+- <b>steerRatio</b> - Steering strength. Too high and the car ping pongs on straights and turns. Too low and the car doesn't turn enough on curves. If you're on a turn and the wheel is oversteering and then correcting, steerRatio is too high and it's fighting with Kp and Ki (which you don't want)
 
-- <b>tuneGernby</b> - (1 or 0) Enables or disables live tuning script
+- <b>tuneGernby</b> - (1 or 0) Enables or disables live tuning script. (anything else???)
 
-- <b>wheelTouchSeconds</b> - (seconds) time interval between wheel touches when driver facial monitoring is not on - MAX LIMIT 600 seconds) - see Note at beginning of this README to see how to manually enable this in the code.
+- <b>wheelTouchSeconds</b> - (seconds) Time interval between wheel touches when driver facial monitoring is not on - MAX LIMIT 600 seconds) - see Note at beginning of this README to see how to manually enable this in the code.
+
+
 
 Kegman's 2018 Honda Pilot EX-L Settings
 ------
@@ -385,8 +397,11 @@ Kegman's 2018 Honda Pilot EX-L Settings
 	}
 
 
+
 Older Notes
 ------
+<b>0.7.3 and below only:</b> If you get a red screen with "Communications Mismatch" please manually reflash panda.  Instructions are here:  https://community.comma.ai/wiki/index.php/Panda_Flashing - If you are using a GM model like the Volt and you get the communications mismatch, please try the -gm branch
+
 <b>Manual Instructions to flash back to v9 NEOS for downgrading back to 0.5.xx:</b>
 - the boot and system image files for v9 NEOS - are in #hw-unofficial - look for the 0.5.13 - they are pinned messages (click pin icon at top)
 - download android fastboot
