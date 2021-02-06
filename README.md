@@ -4,11 +4,11 @@ Table of Contents
 =======================
 
 - [Introduction](#introduction)
-- [Installation Instructions](#instalation-instructions)
+- [Installation Instructions](#installation-instructions)
 - [Notices](#notices)
 - [Release Notes](#release-notes)
 - [How to Use the Live Tuner](#how-to-use-the-live-tuner)
-- [kegman.json Parameter Descriptions](#kegman.json-parameter-descriptions)
+- [kegman.json Parameter Descriptions](#kegmanjson-parameter-descriptions)
 - [Kegman's 2018 Honda Pilot EX-L Settings](#kegmans-2018-honda-pilot-ex-l-settings)
 - [Older Notes](#older-notes)
 
@@ -17,14 +17,14 @@ Table of Contents
 Introduction
 ------
 
-This is a fork of comma's openpilot: https://github.com/commaai/openpilot, and contains tweaks for Honda and GM vehicles.  It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable, including me.  <b>Use at your own risk.</b>
+This is a fork of comma's openpilot: https://github.com/commaai/openpilot, and contains tweaks for Honda and GM vehicles.  It is open source and inherits the MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable, including me.  <b>Use at your own risk.</b>
 
 If you wish you can buy me a beer or 3:  https://www.patreon.com/kegman
 
 #### Branches
 <b>kegman</b> - this is the default branch
 
-<b>kegman-BoschGasPress</b> - this branch gives Honda Bosch users the ability to press the gas without disengaging OP for more "stock ACC"-like behavior.  Nidec Hondas should use the default branch.
+<b>kegman-BoschGasPress</b> - this branch gives Honda Bosch users the ability to press the gas without disengaging OP for more "stock ACC"-like behavior.
 
 <b>kegman-gm</b> - this branch contains default untouched panda directories for GMs having trouble with communication mismatch. Reflash panda after branch checkout. (Seems Volt 2017 requires this)
 
@@ -36,6 +36,7 @@ Using Workbench
 * https://medium.com/@jfrux/installing-a-fork-of-openpilot-with-workbench-de35e9388021
 
 Manually using SSH
+- SSH into your Eon https://github.com/commaai/openpilot/wiki/SSH
 - cd /data
 - mv ./openpilot ./openpilot_backup
 - git clone https://github.com/kegman/openpilot
@@ -45,14 +46,14 @@ Manually using SSH
 
 Notices
 ------
-*** Note that driver monitoring wheelTouchSeconds is not working without the following MANUAL tweak:  You must uncomment the following line in selfdrive/monitoring/driver_monitor.py by removing the "#" at the beginning of the line.  This is due to Comma policy on not touching the wheelTouch timing for forks under threat of ban.  
+<b>WARNING:</b> Do NOT depend on OP to stop the car in time if you are approaching an object which is not in motion in the same direction as your car.  The radar will NOT detect the stationary object in time to slow your car enough to stop.  If you are approaching a stopped vehicle you must disengage and brake as radars ignore objects that are not in motion.
+
+<b>NOTICE:</b> Driver monitoring wheelTouchSeconds is not working without the following MANUAL tweak:  You must uncomment the following line in selfdrive/monitoring/driver_monitor.py by removing the "#" at the beginning of the line.  This is due to Comma policy on not touching the wheelTouch timing for forks under threat of ban.  
 https://github.com/kegman/openpilot/blob/kegman-0.7.8/selfdrive/monitoring/driver_monitor.py#L21  
 
-** <b>0.7.3 and below only:</b> If you get a red screen with "Communications Mismatch" please manually reflash panda.  Instructions are here:  https://community.comma.ai/wiki/index.php/Panda_Flashing - If you are using a GM model like the Volt and you get the communications mismatch, please try the -gm branch **
+<b>NOTICE:</b>  Due to feedback I have turned on OTA updates.  You will receive updates automatically (after rebooting 2 times) on your Eon so you don't have to reclone or git pull any longer to receive new features MADE BETWEEN COMMA RELEASES.  The reason why I separate the branches by release is because some releases can sometimes cause issues.  Features that I or others add, will continue to be updated when you are on the most current release.  If you DO NOT want OTA updates then create a file called "/data/no_ota_updates" and it will not perform OTA updates as long as that file exists.   Do not press the upgrade button on the Eon if it shows up 
 
-<b>WARNING:</b>  Do NOT depend on OP to stop the car in time if you are approaching an object which is not in motion in the same direction as your car.  The radar will NOT detect the stationary object in time to slow your car enough to stop.  If you are approaching a stopped vehicle you must disengage and brake as radars ignore objects that are not in motion.
-
-<b>NOTICE:</b>  Due to feedback I have turned on OTA updates.  You will receive updates automatically (after rebooting 2 times) on your Eon so you don't have to reclone or git pull any longer to receive new features *MADE BETWEEN COMMA RELEASES*.  The reason why I separate the branches by release is because some releases can sometimes cause issues.  Features that I or others add, will continue to be updated when you are on the most current release.  If you DO NOT want OTA updates then create a file called "/data/no_ota_updates" and it will not perform OTA updates as long as that file exists.   Do not press the upgrade button on the Eon if it shows up 
+<b>0.7.3 and below only:</b> If you get a red screen with "Communications Mismatch" please manually reflash panda.  Instructions are here:  https://community.comma.ai/wiki/index.php/Panda_Flashing - If you are using a GM model like the Volt and you get the communications mismatch, please try the -gm branch
 
 Release Notes
 ------
@@ -145,7 +146,7 @@ Release Notes
 
 - <b>Add @pjlao307's Dashcam Recording</b>:  Sometimes you just want to record a wicked OP run on a twisty highway to show your friends.  Sometimes you want to record a big flashing red error and complain about it and show your friends.  This does a screen video capture of the Eon screen and stores the files in /sdcard/videos on your Eon when the REC button is pressed.  Thanks to @pjlao307 and @theantihero for submitting the PR.
 
-- <b>Added primitive tuning script</b>: To invoke live tuning:  (a) turn on tethering on your Eon,  (b) install JuiceSSH or similar and connect your cellphone to the wifi of the Eon using 192.168.43.1 and import the Comma private key,  (c) in JuiceSSH in the SSH session on the Eon issue cd /data/openpilot command, then ./tune.sh.  The text UI will be shown.  (d) turn "tuneGernby" to a "1"  (e) start driving and change the values to tune your steering.  It is best to have a cell phone mount in your car.  Note:  It takes 3 seconds for any changes to take effect.  
+- <b>Added primitive tuning script</b>: Follow the instructions futher down page to use: [How to Use the Live Tuner](#how-to-use-the-live-tuner)
 
 - <b>Replaced dev UI</b> with @perpetuoviator dev UI with brake light icon by @berno22 - Thank you both!  NOTE:  There are lots of conveniences in this UI.  When the car is on, you have to press the top left corner to get to the Settings screen.  If you tap the lower right corner you can see the tmux session.  The brake light icon doesn't work properly with some cars (needs a fingerprint tweak I believe.  The wifi IP address and upload speed is printed on the screen.  The brake icon is so that you can see if OP is causing the brake lights to turn on and off and pissing the guy or gal off behind you. NOTE:  For GM vehicles, the brake icon indicates use of the friction brakes on the vehicle instead of the brake lights themselves.
 
@@ -186,17 +187,30 @@ Release Notes
 How to Use the Live Tuner
 ------
 - Turn on tethering on your Eon and connect to its Wi-Fi
-- SSH into your device using 192.168.43.1 port 8022 and the Comma private key (more instructions here: https://github.com/commaai/openpilot/wiki/SSH)
+
+- Using one of the [mobile SSH clients](https://github.com/commaai/openpilot/wiki/SSH#mobile-ssh-clients), SSH into your device using 192.168.43.1 port 8022 and the [Comma private key](https://github.com/commaai/openpilot/blob/master/tools/ssh/id_rsa)
+
 - cd /data/openpilot
+
 - ./tune.sh
+
+- Modify settings using the keyboard commmands listed at the bottom of the screen
+
+	<b>Note:  It takes 3 seconds for any changes to take effect</b>
 
 ##### Tuning Tips
 - <b>Kp too high</b> - the car overshoots and undershoots center
+
 - <b>Kp too low</b> - the car doesn't turn enough
+
 - <b>Ki too high</b> - it gets to center without oscillations, but it takes too long to center. If you hit a bump or give the wheel a quick nudge, it should oscillate 3 - 5 times before coming to steady-state. If the wheel oscillates forever (critically damped), then your Kp or Ki or both are too high.
+
 - <b>Ki too low</b> - you get oscillations trying to reach the center
+
 - <b>SteerRatio too high</b> - the car ping pongs on straights and turns.  If you're on a turn and the wheel is oversteering and then correcting, SteerRatio is too high, and it's fighting with Kp and Ki (which you don't want) - although in the past I've been able to have an oscillating oversteering tune which could do tighter turns, but the turns weren't pleasant.
+
 - <b>SteerRatio too low</b> - the car doesn't turn enough on curves.
+
 - <b>Kf</b> - lower this if your car oscillates and you've done everything else. It can be lowered to 0
 
 All of these parameters interact with each other so finding the balance is a bit experimental
@@ -208,7 +222,9 @@ kegman.json Parameter Descriptions
 This file is auto generated in /data/kegman.json so it will remain even when you do a fresh clone.  If you mess something up, just delete the file and it will auto generate to default values.  Values of -1 will be replaced with their default values when driving begins.  Use vim or nano to edit this file to your heart's content.
 
 - <b>xbarBP0</b> - (meters/second) There are 3 parameters for one two and three bar distance intervals: xbarBP0 - is how soon it should start braking - a smaller (or negative) value means your car will brake sooner when the lead car slows, a larger value means your car will start braking later
+
 - <b>xbarBP1</b> - (meters/second) The approach speed at which your car gets to xbarMax setting
+
 - <b>xbarMax</b> - (seconds) The maximum distance which is reached when your approach speed reachs xbarBP1. The smaller XbarBP1 is, the sooner you get to max distance/max braking. The harder you brake the larger xbarMax is, the harder you brake where X is the distance interval (bars).
 
 	###### Example:
@@ -217,38 +233,68 @@ This file is auto generated in /data/kegman.json so it will remain even when you
 
 	1BarBP1 = 3 - the relative approach speed in m/s when maximum distance is applied
     
-    1BarMax = 2.5 - maximum distance in seconds (Hint if you're slowing down way back from a slowed lead vehicle, reduce this number and reduce BP1 as well)
+	1BarMax = 2.5 - maximum distance in seconds (Hint if you're slowing down way back from a slowed lead vehicle, reduce this number and reduce BP1 as well)
 
 	Everything inbetween -0.25 m/s and 3 m/s is interpolated, which adjusts the distance smoothly as you slow down depending on the lead car approach relative speed.
+		
 - <b>ACLminSpeed</b> - (kilometers/hour) Minimum speed for automatic lane change to work
+
 - <b>ACLnudgeLess</b> - (1 or 0) Enable automatic lane changes without needing to nudge the steering wheel
+
 - <b>ACLtimer</b> - (seconds) How long to wait until nudgeless automatic lane change begins
+
 - <b>AutoHold</b> - (1 or 0) Turns on the Brake Hold each time you come to a complete stop
+
 - <b>CruiseDelta</b> - (kilometers/hour) How much to increase or decrease the set cruise control speed when you hold the button up or down
+
 - <b>CruiseEnableMin</b> - (kilometers/hour) Minimum speed where cruise control can be enabled
+
 - <b>Kf</b> - Feed forward. Lower this if your car oscillates and you've done everything else. It can be lowered to 0.
+
 - <b>Ki</b> - Integral. Dampens the overshoot / undershoot of Kp and allows the car to be centered faster, allowing for a higher Kp value. Ki too high = it gets to center without oscillations, but it takes too long to center. If you hit a bump or give the wheel a quick nudge, it should oscillate 3 - 5 times before coming to steady-state. If the wheel oscillates forever (critically damped), then your Kp or Ki or both are too high.
+
 - <b>Kp</b> - Proportional. Too high = the car overshoots and undershoots center. Too low = the car doesn't turn enough.
+
 - <b>accelerationMode</b> - 0 = eco; 1 = normal; 2 = sport;
+
 - <b>battChargeMax</b> - (0-100) Maximum battery percentage the EON will charge to
+
 - <b>battChargeMin</b> - (0-100) Minimum battery percentage the EON will start charging
+
 - <b>battPercentOff</b> - (0-100) Turns off the Eon if the Eon battery percentage dips below this percentage - NOTE this only works when the EON is NOT powered by the USB cable!
+
 - <b>brakeStoppingTarget</b> - (0-1.0) How much OP should mash the brakes when the car is stopped.  Increase if you live in hilly areas and need more standstill braking pressure.
+
 - <b>cameraOffset</b> - (meters) Distance from the center of the car to Eon camera. If you want car to hug more to the left, increase cameraOffset. If you want car to hug more to the right, decrease cameraOffset.
+
 - <b>carVoltageMinEonShutdown</b> - (millivolts) Eon stops charging if car battery goes below this level - NOTE: this is the DISCHARGING voltage.  When the Eon is drawing current the voltage on the battery DROPS.  This is NOT the standing no-load voltage.  I would recommended that you unplug your Eon if you are away from your vehicle for more than a few hours and put a battery charger on your car's battery weekly to avoid wrecking your battery if your Eon stays powered when you shut off the car.
+
 - <b>deadzone</b> - (degrees) Adds some deadzone to the steering which could help get rid of wobble
+
 - <b>epsModded</b> - (1 or 0) enable if you have a modded Electric Power Steering (EPS)
+
 - <b>lastTrMode</b> - The last distance interval bars you used. Automatically saved. Do not modify.
+
 - <b>leadDistance</b> - ???
+
 - <b>liveParams</b> - (1 or 0) Enable or disable OP automatic tuning???
+
 - <b>sR_BP0</b> - (degrees) Steering angle where sR_boost will begin to be used
+
 - <b>sR_BP1</b> - (degrees) Steering angle where sR_boost will be at its maximum (values in between are interpolated)
+
 - <b>sR_boost</b> - The maximum boost added to steerRatio at the sR_BP1 steer angle
+
 - <b>sR_time</b> - (seconds) The amount of time before the steerRatio is permitted to lower after increasing
-- <b>slowOnCurves</b> - (1 or 0) Automatically slow down on tight curves to make it easier to make the turn.
+
+- <b>slowOnCurves</b> - (1 or 0) Automatically slow down on tight curves to make it easier to make the turn
+
 - <b>steerRateCost</b> - Tells the system how fast to respond to changing road conditions. If steerRateCost is too low it will be very "darty" and reactive.  Too high and it will be sluggish. If you have roads with sudden changes that you want OP to be more reactive to then lower it.
+
 - <b>steerRatio</b> - Steering strength. Too high and the car ping pongs on straights and turns. Too low and the car doesn't turn enough on curves. If you're on a turn and the wheel is oversteering and then correcting, steerRatio is too high, and it's fighting with Kp and Ki (which you don't want)
+
 - <b>tuneGernby</b> - (1 or 0) Enables or disables live tuning script
+
 - <b>wheelTouchSeconds</b> - (seconds) time interval between wheel touches when driver facial monitoring is not on - MAX LIMIT 600 seconds) - see Note at beginning of this README to see how to manually enable this in the code.
 
 Kegman's 2018 Honda Pilot EX-L Settings
@@ -362,4 +408,4 @@ Older Notes
 
 <b>NOTE:</b> If you have upgraded at any time to v0.5.10, v0.6.x and you want to go back to a branch with v0.5.9 or v0.5.8, then you have to SSH into the Eon and edit the file /data/params/d/ControlsParams and rename "angle_model_bias" to "angle_offset" or your car will have Dash Errors and you'll be scratching your head for hours! 
 
-<b>Pedal Users:</b> Also note that you need to flash your Pedal to go to v0.5.10.  If you want to go back to 0.5.9 or 0.5.8 you need to flash your pedal back to 0.5.9.  Instructions are here:  https://medium.com/@jfrux/comma-pedal-updating-the-firmware-over-can-fa438a3cf910.  Also. After you flash your Pedal..  All hell will break loose on your dash.  Traction control error, Power Steering Error, Trailer Error, OMFG the sky is falling error etc.  DON'T PANIC.  Just drive around a bit and it will disappear after about 2-3 restarts of the car.  Don't rush it I believe it's time dependent as well.  Just drive as normal.  They'll go away.
+<b>Pedal Users:</b> Also note that you need to flash your Pedal to go to v0.5.10.  If you want to go back to 0.5.9 or 0.5.8 you need to flash your pedal back to 0.5.9.  Instructions are here:  https://medium.com/@jfrux/comma-pedal-updating-the-firmware-over-can-fa438a3cf910.  Also, after you flash your Pedal, all hell will break loose on your dash.  Traction control error, Power Steering Error, Trailer Error, OMFG the sky is falling error etc.  DON'T PANIC.  Just drive around a bit and it will disappear after about 2-3 restarts of the car.  Don't rush it. I believe it's time dependent as well.  Just drive as normal.  They'll go away.
