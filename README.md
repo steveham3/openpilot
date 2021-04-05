@@ -68,6 +68,9 @@ Release Notes
 
 See openpilot's official release notes here: https://github.com/commaai/openpilot/blob/master/RELEASES.md
 
+#### v0.8.3
+- OP3T not supported any longer due to incompatible NEOS update - OP3T users try the 0.8.2-083model branch (it's 0.8.2 but with updated 0.8.3 model swapped in)
+
 #### v0.8.2
 - Grey panda still working - will continue to support as long as I can
 - OG Eon still working - will continue to support as long as I can
